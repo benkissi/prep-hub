@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React, { useReducer } from "react";
+import { AppLoading } from "expo";
+import { NavigationContainer } from "@react-navigation/native";
+import {useFonts, Raleway_100Thin, Raleway_400Regular, Raleway_700Bold} from '@expo-google-fonts/raleway'
+
+import Navigator from "./navigation/app-navigator";
+import { AppContext } from "./store/app-context";
+import Reducer from "./store/app-reducer";
+import INITIAL_SATE from "./store/store";
 
 export default function App() {
+  const [store, dispatch] = useReducer(Reducer, INITIAL_SATE);
+  let [fontsLoaded] = useFonts({
+    Raleway_100Thin,
+    Raleway_400Regular,
+    Raleway_700Bold
+  })
+
+  if(!fontsLoaded){
+    return <AppLoading/>
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppContext.Provider value={{ store, dispatch }}>
+      <NavigationContainer>
+        <Navigator />
+      </NavigationContainer>
+    </AppContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

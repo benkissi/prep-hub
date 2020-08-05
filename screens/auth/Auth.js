@@ -8,25 +8,37 @@ function Auth() {
   const [formType, setFormType] = useState("signin");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [isValid, setValidity] = useState(false);
 
   const onInputChangeHandler = useCallback(
     (name, value, validity) => {
       console.log(name, value, validity);
       if (name === "name") {
         setUserName(value);
+        setValidity(validity);
       } else if (name === "password") {
         setPassword(value);
+        setValidity(validity);
+      } else if (name === "repeat_password") {
+        setRepeatPassword(value);
+        setValidity(validity);
       }
     },
     [setUserName, setPassword]
   );
 
   const toggleForm = () => {
-      setFormType(prevState => prevState === 'signin'? 'signup': 'signin')
-  }
+    setFormType((prevState) => (prevState === "signin" ? "signup" : "signin"));
+  };
+
+  const handleAuthSubmit = () => {};
+
   return (
     <View style={styles.wrapper}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>
+        {formType == "signin" ? "Sign In" : "Sign Up"}
+      </Text>
       <View style={styles.form__wrapper}>
         <View style={styles.form__control}>
           <Input
@@ -65,21 +77,23 @@ function Auth() {
           <Text></Text>
         )}
         <View style={styles.form__Button}>
-          <Button text={formType == 'signin'? 'Sign In' : 'Sign Up'} />
+          <Button
+            onPress={handleAuthSubmit}
+            text={formType == "signin" ? "Sign In" : "Sign Up"}
+          />
         </View>
       </View>
       <View style={styles.form_info}>
         <Text style={styles.form_info__text}>
-            {
-                formType == 'signin'? `Don't have an account?`:`Already have an account?`
-            }
-            {" "}
+          {formType == "signin"
+            ? `Don't have an account?`
+            : `Already have an account?`}{" "}
         </Text>
         <Text
           style={{ ...styles.form_info__text, ...styles.form__info__action }}
           onPress={toggleForm}
         >
-          {formType === 'signin'? 'Sign up': 'Sign in'}
+          {formType === "signin" ? "Sign up" : "Sign in"}
         </Text>
       </View>
     </View>

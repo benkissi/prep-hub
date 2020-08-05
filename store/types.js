@@ -1,3 +1,9 @@
-export const TYPES = {
-    SET_USER: 'SET_USER'
+export const QUESTION_TYPES = {
+    SET_USER: 'SET_USER',
+    SET_LOADING: 'SET_LOADING',
+    SET_QUESTIONS: 'SET_QUESTIONS'
+}
+
+export const USER_TYPES = {
+    SET_USER: "SET_USER"
 }

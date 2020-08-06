@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Category from "../../components/Category";
+import Subject from "../../components/Subject";
 
-import { categories } from "../../constants/categories";
+import { subjects } from "../../constants/subjects";
 
-function Explore({ navigation }) {
+function Subjects({ navigation }) {
   const [state, setState] = useState([]);
   
 
   useEffect(() => {
-    setState(categories);
-    console.log("categories--", categories);
+    setState(subjects);
+    console.log("categories--", subjects);
   }, []);
 
-  const handlePress = async (id) => {
-    navigation.navigate("Questions", { params: id });
+  const handlePress = async (name) => {
+    navigation.navigate("Questions", { subject: name });
   };
 
   return (
@@ -23,7 +23,7 @@ function Explore({ navigation }) {
       <View style={styles.container}>
         {state.length
           ? state.map((item) => {
-              return <Category category={item} press={handlePress} />;
+              return <Subject category={item} press={handlePress} />;
             })
           : null}
       </View>
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Explore;
+export default Subjects;

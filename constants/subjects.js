@@ -1,28 +1,28 @@
-export const categories = [
+export const subjects = [
     {
         id: 1,
-        name: 'Science',
+        name: 'Computers',
         color: '#ecb853',
         image: ''
     },
     {
         id: 2,
-        name: 'Social studies',
+        name: 'Mathematics',
         color: '#6e6ccf',
         image: ''
     },
     {
         id: 3,
-        name: 'Agriculture',
+        name: 'Nature',
         color: '#31a05e',
         image: ''
     },
     {
         id: 4,
-        name: 'Maths',
+        name: 'Geography',
         color: '#ff9769',
         image: ''
     },
 ]
 
-export default categories
+export default subjects

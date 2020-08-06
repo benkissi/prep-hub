@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-function ButtonComp({ text, click }) {
+function ButtonComp({ text, press }) {
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity activeOpacity={0.1} onPress={click} style={styles.opacity__wrapper}>
+      <TouchableOpacity activeOpacity={0.1} onPress={press} style={styles.opacity__wrapper}>
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     </View>

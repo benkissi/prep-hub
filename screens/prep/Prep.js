@@ -1,16 +1,17 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Categories from "./Categories";
+import Subjects from "./Subjects";
 import Options from "./Options"
 import Questions from './Questions'
+import Score from './Score'
 
 const Stack = createStackNavigator();
 
-function Explore() {
+function Prep() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Explore" component={Categories} options={{
+      <Stack.Screen name="Subjects" component={Subjects} options={{
           headerShown: false,
           gestureEnabled: true,
           gestureDirection: "horizontal",
@@ -25,8 +26,13 @@ function Explore() {
           gestureEnabled: true,
           gestureDirection: "horizontal",
       }}/>
+      <Stack.Screen name="Score" component={Score} options={{
+          headerShown: false,
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+      }}/>
     </Stack.Navigator>
   );
 }
 
-export default Explore;
+export default Prep;

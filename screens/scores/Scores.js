@@ -25,7 +25,7 @@ function Scores() {
           contentContainerStyle={{ paddingHorizontal: 5 }}
           data={scores}
           renderItem={renderScore}
-          keyExtractor={(item) => item.question}
+          keyExtractor={(item) => item.duration + '' + item.date}
         />
       ) : (
         <View style={styles.empty_container}>

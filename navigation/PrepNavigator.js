@@ -1,14 +1,14 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Subjects from "./Subjects";
-import Options from "./Options"
-import Questions from './Questions'
-import Score from './Score'
+import Subjects from "../screens/prep/Subjects";
+import Options from "../screens/prep/Options"
+import Questions from '../screens/prep/Questions'
+import Score from '../screens/prep/Score'
 
 const Stack = createStackNavigator();
 
-function Prep() {
+function PrepNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Subjects" component={Subjects} options={{
@@ -35,4 +35,4 @@ function Prep() {
   );
 }
 
-export default Prep;
+export default PrepNavigator;

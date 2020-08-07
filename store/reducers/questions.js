@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   questions: [],
   loading: false,
   scores: [],
-  bookmarks: [],
+  skip: [],
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -27,8 +27,8 @@ function questionsReducer(state = INITIAL_STATE, action) {
         scores: [action.payload, ...state.scores],
       };
     }
-    case QUESTION_TYPES.BOOKMARK: {
-      const exist = state.bookmarks.find(
+    case QUESTION_TYPES.SKIP: {
+      const exist = state.skip.find(
         (item) => item.question === action.payload.question
       );
       if (exist) {
@@ -36,8 +36,14 @@ function questionsReducer(state = INITIAL_STATE, action) {
       }
       return {
         ...state,
-        bookmarks: [...state.bookmarks, action.payload],
+        skip: [...state.skip, action.payload],
       };
+    }
+    case QUESTION_TYPES.RESET_SKIP: {
+      return {
+        ...state,
+        skip: []
+      }
     }
     default:
       return state;

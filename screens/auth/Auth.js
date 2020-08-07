@@ -13,7 +13,6 @@ function Auth() {
 
   const onInputChangeHandler = useCallback(
     (name, value, validity) => {
-      console.log(name, value, validity);
       if (name === "name") {
         setUserName(value);
         setValidity(validity);

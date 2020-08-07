@@ -21,7 +21,11 @@ export const setSubjectScore = (subject, score, total, duration) => ({
     }
 })
 
-export const bookmarkQuestion = (question) => ({
-    type: QUESTION_TYPES.BOOKMARK,
+export const skipQuestion = (question) => ({
+    type: QUESTION_TYPES.SKIP,
     payload: question
+})
+
+export const resetSkip = () => ({
+    type: QUESTION_TYPES.RESET_SKIP
 })

@@ -12,7 +12,7 @@ function Subjects({ navigation }) {
   useEffect(() => {
     setState(subjects);
     console.log("categories--", subjects);
-  }, []);
+  }, [subjects]);
 
   const handlePress = async (name) => {
     navigation.navigate("Questions", { subject: name });
@@ -23,7 +23,7 @@ function Subjects({ navigation }) {
       <View style={styles.container}>
         {state.length
           ? state.map((item) => {
-              return <Subject category={item} press={handlePress} />;
+              return <Subject key={item.id} category={item} press={handlePress} />;
             })
           : null}
       </View>

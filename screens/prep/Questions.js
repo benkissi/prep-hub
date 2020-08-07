@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { View, Text, StyleSheet, ActivityIndicator, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  StatusBar,
+  Alert,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Question from "../../components/Question";
 import Button from "../../components/Button";
-import Timer from "../../components/Timer"
-import {COLORS} from '../../constants/colors'
+import Timer from "../../components/Timer";
+import { COLORS } from "../../constants/colors";
 
 import { secondsToHms } from "../../utils";
 
@@ -14,7 +21,8 @@ import {
   setQuestions,
   setLoading,
   setSubjectScore,
-  bookmarkQuestion
+  skipQuestion,
+  resetSkip,
 } from "../../store/actions/questions";
 import { getQuestions } from "../../utils/api";
 
@@ -23,14 +31,16 @@ function Questions({ route, navigation }) {
   const [currentNumber, setCurrentNumber] = useState(1);
   const [validStatus, setValidStatus] = useState(false);
   const [score, setScore] = useState(0);
-  const [completed, setCompleted] = useState(false)
-  const [avaliableTime, setAvailableTime] = useState(0)
-  
-  const totalTime = 900
+  const [completed, setCompleted] = useState(false);
+  const [avaliableTime, setAvailableTime] = useState(0);
+  const [loadSkipped, setLoadSkipped] = useState(false);
+
+  const totalTime = 900;
 
   const dispatch = useDispatch();
-  const { questions, loading } = useSelector((store) => store.questions);
+  const { questions, loading, skip } = useSelector((store) => store.questions);
   const { subject } = route.params;
+  const questionSet = loadSkipped ? skip : questions;
 
   useFocusEffect(
     useCallback(() => {
@@ -42,22 +52,37 @@ function Questions({ route, navigation }) {
   );
 
   useEffect(() => {
-    if(completed) {
-      const duration = secondsToHms(totalTime - avaliableTime)
-      dispatch(setSubjectScore(subject, score, total, duration));
-      navigation.navigate("Score", {
-        subject: subject,
-        score: score,
-        total: total,
-      });
+    if (completed) {
+      if (skip.length) {
+        Alert.alert(
+          "Unanswered Questions",
+          "You skipped some questions. Would you like to give them another try?",
+          [
+            {
+              text: "No",
+              onPress: () => {
+                setLoadSkipped(false);
+                handleCompletion();
+                dispatch(resetSkip());
+              },
+
+              style: "cancel",
+            },
+            { text: "Yes", onPress: () => loadSkippedQuestions() },
+          ],
+          { cancelable: false }
+        );
+      } else {
+        handleCompletion();
+      }
     }
-  }, [completed])
+  }, [completed]);
 
   useEffect(() => {
-    if(typeof avaliableTime === 'number' && avaliableTime <= 0){
-      setCompleted(true)
+    if (typeof avaliableTime === "number" && avaliableTime <= 0) {
+      setCompleted(true);
     }
-  }, [avaliableTime])
+  }, [avaliableTime]);
 
   useFocusEffect(
     useCallback(() => {
@@ -66,7 +91,7 @@ function Questions({ route, navigation }) {
           dispatch(setLoading(true));
           setCurrentNumber(1);
           setScore(0);
-          setCompleted(false)
+          setCompleted(false);
 
           const response = await getQuestions(10);
           const questions = response.results;
@@ -86,6 +111,16 @@ function Questions({ route, navigation }) {
     }, [subject])
   );
 
+  const handleCompletion = () => {
+    const duration = secondsToHms(totalTime - avaliableTime);
+    dispatch(setSubjectScore(subject, score, total, duration));
+    navigation.navigate("Score", {
+      subject: subject,
+      score: score,
+      total: total,
+    });
+  };
+
   const handleValidity = (status) => {
     setValidStatus(status);
   };
@@ -94,33 +129,63 @@ function Questions({ route, navigation }) {
     if (validStatus) {
       setScore((prevState) => prevState + 1);
     }
+    if (loadSkipped) {
+      if (!(currentNumber === skip.length)) {
+        setCurrentNumber((prevState) => prevState + 1);
+      } else {
+        //done
+        console.log('reset')
+        setLoadSkipped(false);
+        setCompleted(true);
+        dispatch(resetSkip())
+        
+      }
+    } else {
+      if (!(currentNumber === total)) {
+        setCurrentNumber((prevState) => prevState + 1);
+      } else {
+        //done
+        setCompleted(true);
+      }
+    }
+    setValidStatus(false);
+  };
+
+  const handleSkip = () => {
+    const current = questions[currentNumber - 1];
+    current.number = currentNumber;
+    setValidStatus(false);
+    dispatch(skipQuestion(current));
     if (!(currentNumber === total)) {
       setCurrentNumber((prevState) => prevState + 1);
     } else {
       //done
-      setCompleted(true)
-      
+      setCompleted(true);
     }
   };
 
-  const handleBookmark = () => {
-    const current = questions[currentNumber - 1]
-    dispatch(bookmarkQuestion(current))
-  }
+  const loadSkippedQuestions = () => {
+    console.log("skipped", skip);
+    setCurrentNumber(1);
+    setLoadSkipped(true);
+    setCompleted(false);
+  };
 
   const timerListener = (remainingSeconds) => {
-    setAvailableTime(remainingSeconds)
-  }
+    setAvailableTime(remainingSeconds);
+  };
 
   return (
     <>
       {!loading ? (
         <View style={styles.wrapper}>
-          <View style={styles.timer}><Timer total={totalTime} listener={timerListener}/></View>
+          <View style={styles.timer}>
+            <Timer total={totalTime} listener={timerListener} />
+          </View>
           {questions.length ? (
             <Question
-              question={questions[currentNumber - 1]}
-              total={total}
+              question={questionSet[currentNumber - 1]}
+              total={loadSkipped ? skip.length : total}
               num={currentNumber}
               forwardValidity={handleValidity}
             />
@@ -130,7 +195,11 @@ function Questions({ route, navigation }) {
               text={currentNumber == total ? "Done" : "Next"}
               press={handleNext}
             />
-            <Text style={styles.skip} onPress={handleBookmark}>Bookmark</Text>
+            {!loadSkipped ? (
+              <Text style={styles.skip} onPress={handleSkip}>
+                Skip
+              </Text>
+            ) : null}
           </View>
         </View>
       ) : (
@@ -152,7 +221,7 @@ const styles = StyleSheet.create({
   loader: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   controls: {
     width: "100%",
@@ -171,8 +240,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     paddingTop: StatusBar.currentHeight + 20 || 0,
     backgroundColor: COLORS.MAIN,
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 export default Questions;

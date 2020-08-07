@@ -3,7 +3,8 @@ import {USER_TYPES} from '../types'
 const INITIAL_STATE = {
     user: null,
     token: null,
-    loggedIn: false
+    loggedIn: false,
+    type: 'student'
 }
 
 function userReducer (state = INITIAL_STATE, action) {

@@ -22,6 +22,7 @@ function Component({ answers, onSelect }) {
               setValue(ans);
             }}
             style={styles.touch}
+            key={ans}
           >
             <View
               key={ans}

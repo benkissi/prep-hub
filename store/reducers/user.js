@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     user: null,
     token: null,
     loggedIn: false,
-    type: 'student'
+    type: 'teacher'
 }
 
 function userReducer (state = INITIAL_STATE, action) {

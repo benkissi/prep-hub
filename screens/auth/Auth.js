@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+
+const logo = require('../../assets/logo.png')
 
 function Auth() {
   const [formType, setFormType] = useState("signin");
@@ -35,6 +37,9 @@ function Auth() {
 
   return (
     <View style={styles.wrapper}>
+      <View style={styles.logo__container} >
+        <Image style={styles.logo} source={logo} resizeMode="contain"/>
+      </View>
       <Text style={styles.title}>
         {formType == "signin" ? "Sign In" : "Sign Up"}
       </Text>
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    backgroundColor: "white"
   },
   title: {
     fontFamily: "Raleway_700Bold",
@@ -133,6 +139,18 @@ const styles = StyleSheet.create({
   form__info__action: {
     color: "#ff9769",
   },
+
+  logo__container: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    marginBottom: 20
+  },
+
+  logo: {
+    width: "30%",
+    height: 100
+  }
 });
 
 export default Auth;

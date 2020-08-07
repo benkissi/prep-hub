@@ -1,41 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 
-import Button from '../../components/Button'
+import Button from "../../components/Button";
 
 function Score({ route, navigation }) {
   const [review, setReview] = useState("");
-  const [imageLink, setImageLink] = useState("")
+  const [imageLink, setImageLink] = useState(require("../../assets/below.png"));
   const { subject, score, total } = route.params;
-
 
   useEffect(() => {
     const percentage = (score / total) * 100;
     if (percentage > 50 && percentage < 71) {
       setReview("Nice! Above average, there is always room for improvement");
-      setImageLink( require("../../assets/above.png"))
+      setImageLink(require("../../assets/above.png"));
     } else if (percentage > 70 && percentage < 91) {
       setReview("Well done, there is always room for improvement");
-      setImageLink( require("../../assets/above.png"))
+      setImageLink(require("../../assets/above.png"));
     } else if (percentage > 90) {
       setReview("Perfect score!, well done");
-      setImageLink( require("../../assets/above.png"))
+      setImageLink(require("../../assets/above.png"));
     } else if (percentage < 50) {
       setReview(
         "Below average, don't worry you can try again. Remember, its just about practising"
       );
-      setImageLink( require("../../assets/below.png"))
+      setImageLink(require("../../assets/below.png"));
     } else if (percentage == 50) {
       setReview(
         "Averge, don't worry you can try again. Remember, its just about practising"
       );
-      setImageLink( require("../../assets/below.png"))
+      setImageLink(require("../../assets/below.png"));
     }
   }, []);
 
   const handleButtonPress = () => {
-    navigation.navigate('Subjects')
-  }
+    navigation.navigate("Subjects");
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -56,7 +55,7 @@ function Score({ route, navigation }) {
       </View>
       <Text style={styles.desc}>{review}</Text>
       <View style={styles.button__wrapper}>
-          <Button text="Go to Subjects" press={handleButtonPress}/>
+        <Button text="Go to Subjects" press={handleButtonPress} />
       </View>
     </View>
   );
@@ -114,8 +113,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button__wrapper: {
-      marginTop: 50
-  }
+    marginTop: 50,
+  },
 });
 
 export default Score;

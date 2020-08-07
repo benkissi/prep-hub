@@ -1,13 +1,23 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import SetQuestions from '../screens/teacher/SetQuestions'
+import SetQuestions from "../screens/teacher/SetQuestions";
+
+import DrawerIcon from "../components/DrawerIcon";
 
 const Stack = createStackNavigator();
 
-function SetQuestionsNavigator() {
+function SetQuestionsNavigator({navigation}) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Set Questions" component={SetQuestions}/>
+    <Stack.Navigator
+      initialRouteName="Set Questions"
+      headerMode="float"
+      screenOptions={{ headerTitleAlign: "center" }}
+    >
+      <Stack.Screen
+        name="Set Questions"
+        component={SetQuestions}
+        options={{ headerLeft: () => <DrawerIcon  navigation={navigation}/> }}
+      />
     </Stack.Navigator>
   );
 }

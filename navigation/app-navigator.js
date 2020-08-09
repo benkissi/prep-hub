@@ -9,7 +9,7 @@ import Auth from "../screens/auth/Auth";
 import PrepNavigator from "./PrepNavigator.js";
 import Scores from "../screens/scores/Scores";
 import SetQuestionsNavigator from "./SetQuestionsNavigator"
-import ResultsNavigator from "./ResultsNavigator"
+import AssessmentNavigator from "./AssessmentNavigator"
 
 import {COLORS} from '../constants/colors'
 
@@ -67,7 +67,7 @@ function Navigator() {
         }}
         >
           <Drawer.Screen name="Set Questions" component={SetQuestionsNavigator} />
-          <Drawer.Screen name="Results" component={ResultsNavigator} />
+          <Drawer.Screen name="Assessment" component={AssessmentNavigator} />
         </Drawer.Navigator>
       )}
     </>

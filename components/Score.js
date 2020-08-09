@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { COLORS } from "../constants/colors";
 import { formatDate } from "../utils";
 
-function Score({ score, total, subject, date, duration }) {
+function Score({ score, total, subject, date, duration, name }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -24,6 +24,9 @@ function Score({ score, total, subject, date, duration }) {
   const dateString = formatDate(date);
   return (
     <View style={styles.wrapper}>
+      {
+        name? <Text style={styles.name}>{name}</Text>: null
+      }
       <View style={styles.top}>
         <View style={styles.score__container}>
           <Text style={styles.score}>{score}</Text>
@@ -118,6 +121,10 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway_400Regular",
     color: COLORS.LIGTH_GRAY,
   },
+  name: {
+    color: COLORS.MEDIUM_BLACK,
+    fontSize: 17
+  }
 });
 
 export default Score;

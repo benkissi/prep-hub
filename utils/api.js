@@ -1,7 +1,16 @@
 import endpoints from "./endpoints";
 
-export async function getQuestions(number) {
-  const url = endpoints.MATHS(number);
+export async function getQuizes(number) {
+  const url = endpoints.GET_QUIZES;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getQuestions(amount, category, difficulty, type) {
+  const url = endpoints.FETCH_QUESTIONS(amount, category, difficulty, type)
+
   const res = await fetch(url);
   const data = await res.json();
 
@@ -9,37 +18,38 @@ export async function getQuestions(number) {
 }
 
 export async function setQuestions({
-  testTitle,
-  total,
-  level,
-  subject,
-  questionType,
+  type,
+  difficulty,
+  category,
+  amount,
   duration,
+  title,
 }) {
-  if (!testTitle || !total || !level || !subject || !questionType || !duration) {
+  if (!title || !amount || !difficulty || !category || !type || !duration) {
     return { error: "Missing fields" };
   }
 
   try {
     const url = endpoints.SET_QUESTIONS;
     const data = {
-      title,
-      number,
-      level,
-      subject,
       type,
+      difficulty,
+      category,
+      amount,
       duration,
+      title
     };
 
+    console.log('data', data)
     const res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json"},
       body: JSON.stringify(data),
     });
 
-    const response = await res.json();
+    // const response = await res.json();
 
-    return response;
+    // return response;
   } catch (error) {
     console.log(error);
   }

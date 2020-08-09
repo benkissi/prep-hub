@@ -22,9 +22,9 @@ function Select({ placeholder, items, name, onSelect }) {
     setModalState((prevState) => !prevState);
   };
 
-  const handleOptionSelect = (level) => {
-    console.log("level", level);
-    setValue(level);
+  const handleOptionSelect = (item) => {
+    console.log('item', item)
+    setValue(item.name);
     setModalState(false);
   };
   return (
@@ -54,12 +54,12 @@ function Select({ placeholder, items, name, onSelect }) {
             <View style={styles.modalView}>
               {items.map((item) => (
                 <TouchableOpacity
-                  key={item}
+                  key={item.id}
                   onPress={() => handleOptionSelect(item)}
                   style={styles.touch}
                 >
                   <View style={styles.option__wrapper}>
-                    <Text style={styles.options}>{item}</Text>
+                    <Text style={styles.options}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               ))}

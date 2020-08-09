@@ -14,8 +14,8 @@ function Subjects({ navigation }) {
     console.log("categories--", subjects);
   }, [subjects]);
 
-  const handlePress = async (name) => {
-    navigation.navigate("Questions", { subject: name });
+  const handlePress = async (name, id) => {
+    navigation.navigate("Quizes", { subject: name, subjectId: id });
   };
 
   return (

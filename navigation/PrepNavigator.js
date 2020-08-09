@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import Subjects from "../screens/prep/Subjects";
-import Options from "../screens/prep/Options"
+import Quizes from "../screens/prep/Quizes"
 import Questions from '../screens/prep/Questions'
 import Score from '../screens/prep/Score'
 
@@ -16,7 +16,7 @@ function PrepNavigator() {
           gestureEnabled: true,
           gestureDirection: "horizontal",
       }}/>
-      <Stack.Screen name="Options" component={Options} options={{
+      <Stack.Screen name="Quizes" component={Quizes} options={{
           headerShown: false,
           gestureEnabled: true,
           gestureDirection: "horizontal",

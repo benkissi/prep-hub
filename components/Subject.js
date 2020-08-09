@@ -5,7 +5,7 @@ import Card from "./Card";
 
 function Category({ category, press }) {
   return (
-    <TouchableOpacity activeOpacity={0.5} style={styles.wrapper} onPress={() => press(category.name)}>
+    <TouchableOpacity activeOpacity={0.5} style={styles.wrapper} onPress={() => press(category.name, category.id)}>
       <View style={styles.card}>
         <Card color={category.color}>
           <Text style={styles.title}>{category.name}</Text>

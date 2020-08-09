@@ -39,7 +39,7 @@ function Questions({ route, navigation }) {
 
   const dispatch = useDispatch();
   const { questions, loading, skip } = useSelector((store) => store.questions);
-  const { subject } = route.params;
+  const { subject, subjectId, amount, difficulty, type, duration } = route.params;
   const questionSet = loadSkipped ? skip : questions;
 
   useFocusEffect(
@@ -92,8 +92,8 @@ function Questions({ route, navigation }) {
           setCurrentNumber(1);
           setScore(0);
           setCompleted(false);
-
-          const response = await getQuestions(10);
+          console.log('options questions',amount, subjectId, difficulty, type)
+          const response = await getQuestions(amount, subjectId, difficulty, type);
           const questions = response.results;
           if (questions.length) {
             dispatch(setQuestions(questions));
@@ -112,8 +112,8 @@ function Questions({ route, navigation }) {
   );
 
   const handleCompletion = () => {
-    const duration = secondsToHms(totalTime - avaliableTime);
-    dispatch(setSubjectScore(subject, score, total, duration));
+    const timeUsed = secondsToHms(duration - avaliableTime);
+    dispatch(setSubjectScore(subject, score, total, timeUsed));
     navigation.navigate("Score", {
       subject: subject,
       score: score,
@@ -180,7 +180,7 @@ function Questions({ route, navigation }) {
       {!loading ? (
         <View style={styles.wrapper}>
           <View style={styles.timer}>
-            <Timer total={totalTime} listener={timerListener} />
+            <Timer total={duration} listener={timerListener} />
           </View>
           {questions.length ? (
             <Question

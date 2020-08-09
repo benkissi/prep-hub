@@ -1,25 +1,31 @@
 export const subjects = [
     {
-        id: 1,
-        name: 'Computers',
+        id: 18,
+        name: 'IT',
         color: '#ecb853',
         image: ''
     },
     {
-        id: 2,
+        id: 19,
         name: 'Mathematics',
         color: '#6e6ccf',
         image: ''
     },
     {
-        id: 3,
-        name: 'Nature',
+        id: 23,
+        name: 'History',
         color: '#31a05e',
         image: ''
     },
     {
-        id: 4,
+        id: 22,
         name: 'Geography',
+        color: '#ff9769',
+        image: ''
+    },
+    {
+        id: 17,
+        name: 'Agric Science',
         color: '#ff9769',
         image: ''
     },

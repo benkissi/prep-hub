@@ -1,6 +1,11 @@
+const BASE_URL =`https://542c97b252e1.ngrok.io`
+
 const endpoints = {
-    GET_QUIZES: `https://ddd19baea9d9.ngrok.io/quiz`,
-    SET_QUESTIONS: `https://ddd19baea9d9.ngrok.io/quiz`,
+    SIGN_UP: `${BASE_URL}/signup`,
+    SIGN_IN: `${BASE_URL}/signin`,
+    GET_QUIZES: `${BASE_URL}/quiz`,
+    SET_SCORE: `${BASE_URL}/scores`,
+    SET_QUESTIONS: `${BASE_URL}/quiz`,
     FETCH_QUESTIONS: (amount, category, difficulty, type) => `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}${type !== 'any'? '&type='+type: '' }`
 }
 

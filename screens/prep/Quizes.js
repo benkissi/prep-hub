@@ -29,7 +29,7 @@ function Quizes({ route, navigation }) {
     useCallback(() => {
       const getQuizes = async () => {
         try {
-          dispatch(fetchQuizes());
+          dispatch(fetchQuizes(subjectId));
         } catch (error) {
           console.log(error);
         }
@@ -49,20 +49,21 @@ function Quizes({ route, navigation }) {
       amount: quiz.amount,
       difficulty: quiz.difficulty,
       type: quiz.type,
-      duration: quiz.duration
+      duration: quiz.duration,
+      testId: quiz._id
     });
   };
 
   const renderQuizes = ({ item }) => (
-    <TouchableOpacity style={styles.wrapper}>
+    <TouchableOpacity style={styles.wrapper} onPress={() => onQuizPress(item)}>
       <Card>
-        <Test test={item} handlePress={onQuizPress} />
+        <Test test={item} />
       </Card>
     </TouchableOpacity>
   );
   return (
     <View style={styles.wrapper}>
-      {quizes.length > 0 ? (
+      {quizes && quizes.length > 0 ? (
         <FlatList
           style={styles.flatList}
           data={quizes}

@@ -22,7 +22,7 @@ function Navigator() {
   const { loggedIn, type } = useSelector((store) => store.user);
   return (
     <>
-      {loggedIn ? (
+      {!loggedIn ? (
         <Stack.Navigator>
           <Stack.Screen
             name="Auth"

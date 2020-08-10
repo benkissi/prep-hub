@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import {useDispatch, useSelector} from 'react-redux'
 
 import Button from "../../components/Button";
+
+import {setUserScore} from '../../store/actions/questions'
 
 function Score({ route, navigation }) {
   const [review, setReview] = useState("");
   const [imageLink, setImageLink] = useState(require("../../assets/below.png"));
-  const { subject, score, total } = route.params;
+  const { subject, score, total, testId, duration } = route.params;
+
+  const dispatch = useDispatch()
+  const { user, type } = useSelector((store) => store.user);
 
   useEffect(() => {
     const percentage = (score / total) * 100;
@@ -30,6 +36,8 @@ function Score({ route, navigation }) {
       );
       setImageLink(require("../../assets/below.png"));
     }
+    // studentCode, testId, subject, score, total, duration
+    dispatch(setUserScore(user.studentCode,testId, subject, score, total, duration))
   }, []);
 
   const handleButtonPress = () => {

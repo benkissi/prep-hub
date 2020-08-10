@@ -1,5 +1,5 @@
 import { QUESTION_TYPES } from "../types";
-import {getQuizes} from "../../utils/api"
+import {getQuizes, getCategoryQuizes, createQuiz, getTeacherQuizes, setScore} from "../../utils/api"
 
 export const setLoading = (isLoading) => ({
   type: QUESTION_TYPES.SET_LOADING,
@@ -36,13 +36,50 @@ export const setQuizes = (quizesArray) => ({
     payload: quizesArray
 })
 
-export const fetchQuizes = () => {
+export const setTeacherQuizes = (quizArray) => ({
+  type: QUESTION_TYPES.SET_TEACHER_QUIZES,
+  payload: quizArray
+})
+
+export const fetchQuizes = (subjectId) => {
   return async (dispatch) => {
     dispatch(setLoading(true))
-    const response = await getQuizes();
+    const response = await getCategoryQuizes(subjectId);
     const data = response.data
     dispatch(setQuizes(data))
     dispatch(setLoading(false))
     console.log('data', data)
   };
 };
+
+export const setQuiz = (data) => {
+  console.log('question data', data)
+  return async (dispatch) => {
+    dispatch(setLoading(true))
+    console.log('quizy', data)
+    const response = await createQuiz(data);
+    console.log('quiz response', response)
+    dispatch(setLoading(false))
+  };
+};
+
+
+export const fetchTeacherQuizes = (teacherCode) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true))
+    const response = await getTeacherQuizes(teacherCode)
+    dispatch(setTeacherQuizes(response.data))
+
+    dispatch(setLoading(false))
+  };
+}
+
+export const setUserScore = (studentCode, testId, subject, score, total, duration) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true))
+    const response = await setScore(studentCode, testId, subject, score, total, duration)
+    console.log('score', response)
+    
+    dispatch(setLoading(false))
+  }
+}

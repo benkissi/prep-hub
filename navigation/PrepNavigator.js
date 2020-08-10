@@ -17,7 +17,6 @@ function PrepNavigator() {
           gestureDirection: "horizontal",
       }}/>
       <Stack.Screen name="Quizes" component={Quizes} options={{
-          headerShown: false,
           gestureEnabled: true,
           gestureDirection: "horizontal",
       }}/>

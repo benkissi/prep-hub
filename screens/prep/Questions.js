@@ -35,11 +35,9 @@ function Questions({ route, navigation }) {
   const [avaliableTime, setAvailableTime] = useState(0);
   const [loadSkipped, setLoadSkipped] = useState(false);
 
-  const totalTime = 900;
-
   const dispatch = useDispatch();
   const { questions, loading, skip } = useSelector((store) => store.questions);
-  const { subject, subjectId, amount, difficulty, type, duration } = route.params;
+  const { subject, subjectId, amount, difficulty, type, duration, testId } = route.params;
   const questionSet = loadSkipped ? skip : questions;
 
   useFocusEffect(
@@ -118,6 +116,8 @@ function Questions({ route, navigation }) {
       subject: subject,
       score: score,
       total: total,
+      testId: testId,
+      duration: duration - avaliableTime
     });
   };
 

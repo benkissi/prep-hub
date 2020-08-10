@@ -9,13 +9,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-function Select({ placeholder, items, name, onSelect }) {
+function Select({ placeholder, items, name, onSelect, value }) {
   const [openModal, setModalState] = useState(false);
-  const [value, setValue] = useState("");
-
-    useEffect(() => {
-        onSelect(value, name)
-    }, [value])
 
   const handlePress = () => {
     console.log("hey");
@@ -24,7 +19,7 @@ function Select({ placeholder, items, name, onSelect }) {
 
   const handleOptionSelect = (item) => {
     console.log('item', item)
-    setValue(item.name);
+    onSelect(item.name, name);
     setModalState(false);
   };
   return (

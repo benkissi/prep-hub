@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   loading: false,
   scores: [],
   skip: [],
-  quizes: []
+  quizes: [],
+  teacherQuizes: []
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -50,6 +51,12 @@ function questionsReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         quizes: action.payload
+      }
+    }
+    case QUESTION_TYPES.SET_TEACHER_QUIZES: {
+      return {
+        ...state,
+        teacherQuizes: action.payload
       }
     }
     default:

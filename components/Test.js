@@ -3,33 +3,68 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { COLORS } from "../constants/colors";
 
-function Test({ test, handlePress }) {
-  const [subject, setSubject] = useState("Subject");
+import { secondsToHms, getDateMonthYear } from "../utils";
+
+function Test({ test }) {
+  const [subject, setSubject] = useState("");
+  const [level, setLevel] = useState("");
+  const [duration, setDuration] = useState("");
+  const [createdDate, setCreatedDate] = useState("");
 
   useEffect(() => {
-    if (test.category === "23") {
-      setSubject("History");
+    switch (test.category) {
+      case "23":
+        setSubject("History");
+        break;
+      case "22":
+        setSubject("Geography");
+        break;
+      case "19":
+        setSubject("Mathematics");
+        break;
+      case "18":
+        setSubject("IT");
+        break;
+      case "17":
+        setSubject("Agric Science");
     }
+
+    switch (test.difficulty) {
+      case "easy":
+        setLevel("Form 1");
+        break;
+      case "medium":
+        setLevel("Form 2");
+        break;
+      case "hard":
+        setLevel("Form 3");
+    }
+
+    const convertedDuraation = secondsToHms(test.duration);
+    setDuration(convertedDuraation);
+
+    const createdDate = new Date(test.createdAt);
+    const dateString = getDateMonthYear(createdDate);
+
+    setCreatedDate(dateString);
   }, [test]);
 
   return (
-    <TouchableOpacity style={styles.wrapper} onPress={() => handlePress(test)}>
-      <View style={styles.wrapper}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{test.title}</Text>
-          <Text style={styles.takers}>50</Text>
-        </View>
-
-        <View style={styles.info}>
-          <Text style={styles.info__text}>Subject: {subject}</Text>
-          <Text style={styles.info__text}>Class: Form 3</Text>
-        </View>
-        <View style={styles.info}>
-          <Text style={styles.info__text}>Duration: 15 mins</Text>
-          <Text style={styles.info__text}>12 August 2020</Text>
-        </View>
+    <View style={styles.wrapper}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{test.title}</Text>
+        <Text style={styles.takers}>50</Text>
       </View>
-    </TouchableOpacity>
+
+      <View style={styles.info}>
+        <Text style={styles.info__text}>Subject: {subject}</Text>
+        <Text style={styles.info__text}>Class: {level}</Text>
+      </View>
+      <View style={styles.info}>
+        <Text style={styles.info__text}>Duration: {duration}</Text>
+        <Text style={styles.info__text}>{createdDate}</Text>
+      </View>
+    </View>
   );
 }
 

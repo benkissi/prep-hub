@@ -7,18 +7,24 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 
+import { setQuiz } from "../../store/actions/questions";
+
 import { subjects } from "../../constants/subjects";
 
-import { setQuestions } from "../../utils/api";
+import {COLORS} from '../../constants/colors'
+
+
 
 function SetQuestions() {
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(null);
   const [isValid, setValidity] = useState(false);
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
@@ -26,15 +32,21 @@ function SetQuestions() {
   const [formError, setFormError] = useState("");
   const [duration, setDuration] = useState("");
   const [testTitle, setTestTitle] = useState("");
+  const [resetForm, setResetForm] = useState("");
+
+  const dispatch = useDispatch()
+  const { loading } = useSelector((store) => store.questions);
+  const { teacherCode } = useSelector((store) => store.user.user);
 
   const onInputChangeHandler = useCallback(
     (name, value, validity) => {
+      setResetForm(false)
       if (name === "total") {
         setTotal(value);
         setValidity(validity);
       }
-      if(name === "title"){
-        setTestTitle(value)
+      if (name === "title") {
+        setTestTitle(value);
         setValidity(validity);
       }
     },
@@ -42,6 +54,7 @@ function SetQuestions() {
   );
 
   const handleSelect = (value, field) => {
+    console.log('select',value, field)
     if (field === "level") {
       setLevel(value);
     }
@@ -72,19 +85,29 @@ function SetQuestions() {
       return;
     }
     setFormError("");
-    let data = {} 
+    let data = {};
 
-    data.type = typeArray.find((item) =>item.name === questionType).value
-    data.difficulty = levelArray.find((item) =>item.name === level).value
-    data.category = subjects.find((item) =>item.name === subject).id
-    data.amount = total
-    data.duration = durationArray.find((item) =>item.name === duration).value
-    data.title = testTitle
-    const response = await setQuestions(data);
+    data.type = typeArray.find((item) => item.name === questionType).value;
+    data.difficulty = levelArray.find((item) => item.name === level).value;
+    data.category = subjects.find((item) => item.name === subject).id;
+    data.amount = total;
+    data.duration = durationArray.find((item) => item.name === duration).value;
+    data.title = testTitle;
+    data.teacherCode = teacherCode
+
+    dispatch(setQuiz(data))
+    setTotal(0)
+    setValidity(false)
+    setLevel("")
+    setSubject("")
+    setQuestionType("")
+    setFormError("")
+    setDuration("")
+    setTestTitle("")
+    setResetForm(true)
+
     try {
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const typeArray = [
@@ -120,6 +143,7 @@ function SetQuestions() {
                 required={true}
                 errorText="Test title is required"
                 onInputChange={onInputChangeHandler}
+                reset={resetForm}
               />
               <Input
                 min={10}
@@ -129,35 +153,44 @@ function SetQuestions() {
                 required={true}
                 errorText="Number of questions is required"
                 onInputChange={onInputChangeHandler}
+                reset={resetForm}
               />
               <Select
                 name="level"
                 onSelect={handleSelect}
                 placeholder="Select level"
                 items={levelArray}
+                value={level}
               />
               <Select
                 name="subject"
                 placeholder="Select Subject"
                 items={subjects}
                 onSelect={handleSelect}
+                value={subject}
               />
               <Select
                 name="type"
                 placeholder="Select question type"
                 items={typeArray}
                 onSelect={handleSelect}
+                value={questionType}
               />
               <Select
                 name="duration"
                 placeholder="Select duration"
                 items={durationArray}
                 onSelect={handleSelect}
+                value={duration}
               />
 
-              <View style={styles.button__wrapper}>
-                <Button text="Done" press={handleButtonPress} />
-              </View>
+              {loading ? (
+                <ActivityIndicator size="large" color={COLORS.MAIN} />
+              ) : (
+                <View style={styles.button__wrapper}>
+                  <Button text="Done" press={handleButtonPress} />
+                </View>
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -170,7 +203,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     width: "100%",
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   content: {
     width: "100%",

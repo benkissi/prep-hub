@@ -1,38 +1,58 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+
 import Result from "../../components/Result";
 import Test from "../../components/Test";
 import Card from "../../components/Card";
-import { ceil } from "react-native-reanimated";
 
-function Results({navigation}) {
+import {COLORS} from '../../constants/colors'
+
+import { fetchTeacherQuizes } from "../../store/actions/questions";
+
+function Results({ navigation }) {
+  const { teacherCode } = useSelector((store) => store.user.user);
+  const { loading, teacherQuizes } = useSelector((store) => store.questions);
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchTeacherQuizes(teacherCode));
+    }, [])
+  );
   const handleCardPress = () => {
-    navigation.navigate('Results')
-  }
+    navigation.navigate("Results");
+  };
   const renderTest = ({ item }) => (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.card__wrapper}>
         <Card>
-          <Test />
+          <Test test={item}/>
         </Card>
       </View>
     </TouchableOpacity>
   );
   return (
     <View style={styles.wrapper}>
-      <FlatList
-        style={{ width: "100%", flex: 1 }}
-        contentContainerStyle={{ paddingHorizontal: 5 }}
-        data={["test 1", "test 2"]}
-        renderItem={renderTest}
-        keyExtractor={(item) => item}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color={COLORS.MAIN} />
+      ) : (
+        <FlatList
+          style={{ width: "100%", flex: 1 }}
+          contentContainerStyle={{ paddingHorizontal: 5 }}
+          data={teacherQuizes}
+          renderItem={renderTest}
+          keyExtractor={(item) => item._id}
+        />
+      )}
     </View>
   );
 }

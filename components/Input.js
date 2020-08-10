@@ -36,6 +36,14 @@ const Input = (props) => {
     touched: false,
   });
 
+  const { reset } = props;
+
+  useEffect(() => {
+    if (reset) {
+      dispatch({ type: INPUT_CHANGE, value: "", isValid: false });
+    }
+  }, [reset]);
+
   useEffect(() => {
     if (inputState.touched) {
       onInputChange(props.name, inputState.value, inputState.isValid);

@@ -32,7 +32,7 @@ function Score({ route, navigation }) {
       setImageLink(require("../../assets/below.png"));
     } else if (percentage == 50) {
       setReview(
-        "Averge, don't worry you can try again. Remember, its just about practising"
+        "Average, don't worry you can try again. Remember, its just about practising"
       );
       setImageLink(require("../../assets/below.png"));
     }

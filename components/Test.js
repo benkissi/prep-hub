@@ -53,7 +53,7 @@ function Test({ test }) {
     <View style={styles.wrapper}>
       <View style={styles.header}>
         <Text style={styles.title}>{test.title}</Text>
-        <Text style={styles.takers}>50</Text>
+        <Text style={styles.takers}>{test.takers}</Text>
       </View>
 
       <View style={styles.info}>

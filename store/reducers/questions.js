@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   skip: [],
   quizes: [],
   teacherQuizes: [],
-  scores: []
+  scores: [],
+  error: "",
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -36,7 +37,7 @@ function questionsReducer(state = INITIAL_STATE, action) {
         (item) => item.question === action.payload.question
       );
       if (exist) {
-        return state
+        return state;
       }
       return {
         ...state,
@@ -46,26 +47,32 @@ function questionsReducer(state = INITIAL_STATE, action) {
     case QUESTION_TYPES.RESET_SKIP: {
       return {
         ...state,
-        skip: []
-      }
+        skip: [],
+      };
     }
     case QUESTION_TYPES.SET_QUIZES: {
       return {
         ...state,
-        quizes: action.payload
-      }
+        quizes: action.payload,
+      };
     }
     case QUESTION_TYPES.SET_TEACHER_QUIZES: {
       return {
         ...state,
-        teacherQuizes: action.payload
-      }
+        teacherQuizes: action.payload,
+      };
     }
     case QUESTION_TYPES.SET_SCORES: {
       return {
         ...state,
-        scores: action.payload
-      }
+        scores: action.payload,
+      };
+    }
+    case QUESTION_TYPES.SET_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
+      };
     }
     default:
       return state;

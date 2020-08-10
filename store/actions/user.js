@@ -21,6 +21,11 @@ export const setLoading = (state) => ({
   payload: state,
 });
 
+export const setError = (message) => ({
+  type: USER_TYPES.SET_ERROR,
+  payload: message,
+});
+
 export const signUpUser = (
   name,
   password,
@@ -30,34 +35,44 @@ export const signUpUser = (
   role
 ) => {
   return async (dispatch) => {
-    dispatch(setLoading(true));
-    const response = await signUp(
-      name,
-      password,
-      teacherCode,
-      studentCode,
-      schoolCode,
-      role
-    );
-    console.log("response", response);
-    dispatch(setLoading(false));
-    dispatch(setUser(response.user));
-    dispatch(setUserType(response.user.role));
-    dispatch(setToken(response.token))
-    dispatch(setLoading(false));
+    try {
+      dispatch(setLoading(true));
+      const response = await signUp(
+        name,
+        password,
+        teacherCode,
+        studentCode,
+        schoolCode,
+        role
+      );
+      console.log("response", response);
+      dispatch(setLoading(false));
+      dispatch(setUser(response.user));
+      dispatch(setUserType(response.user.role));
+      dispatch(setToken(response.token));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(setError(error.message));
+    }
   };
 };
 
 export const signInUser = (code, name, type) => {
   return async (dispatch) => {
-    dispatch(setLoading(true));
-    const response = await signIn(code, name, type);
-    dispatch(setUser(response.user));
-    dispatch(setUserType(response.user.role));
-    dispatch(setToken(response.token))
-    
-    console.log("sigin", code, name, type);
-    console.log('signin response', response)
-    dispatch(setLoading(false));
+    try {
+      dispatch(setLoading(true));
+      const response = await signIn(code, name, type);
+      dispatch(setUser(response.user));
+      dispatch(setUserType(response.user.role));
+      dispatch(setToken(response.token));
+
+      console.log("sigin", code, name, type);
+      console.log("signin response", response);
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(setError(error.message));
+    }
   };
 };

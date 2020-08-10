@@ -26,7 +26,7 @@ export const subjects = [
     {
         id: 17,
         name: 'Agric Science',
-        color: '#ff9769 ',
+        color: '#1DBC60',
         image: ''
     },
 ]

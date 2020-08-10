@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 import { COLORS } from "../constants/colors";
-import { formatDate } from "../utils";
+import { formatDate, secondsToHms } from "../utils";
 
 function Score({ score, total, subject, date, duration, name }) {
   const [image, setImage] = useState(null);
@@ -20,8 +20,9 @@ function Score({ score, total, subject, date, duration, name }) {
     }
   }, []);
 
-  const badge = require("../assets/trophy.png");
-  const dateString = formatDate(date);
+  const timeUsedString = secondsToHms(duration)
+  const dateObject = new Date(date)
+  const dateString = formatDate(dateObject);
   return (
     <View style={styles.wrapper}>
       {
@@ -45,7 +46,7 @@ function Score({ score, total, subject, date, duration, name }) {
       </View>
       <View style={styles.info__container}>
         <Text styles={styles.info}>{dateString}</Text>
-        <Text styles={styles.info}>{duration}</Text>
+        <Text styles={styles.info}>{timeUsedString}</Text>
       </View>
     </View>
   );

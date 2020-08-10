@@ -1,3 +1,4 @@
+import { State } from "react-native-gesture-handler";
 import { QUESTION_TYPES } from "../types";
 
 const INITIAL_STATE = {
@@ -6,7 +7,8 @@ const INITIAL_STATE = {
   scores: [],
   skip: [],
   quizes: [],
-  teacherQuizes: []
+  teacherQuizes: [],
+  scores: []
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -57,6 +59,12 @@ function questionsReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         teacherQuizes: action.payload
+      }
+    }
+    case QUESTION_TYPES.SET_SCORES: {
+      return {
+        ...state,
+        scores: action.payload
       }
     }
     default:

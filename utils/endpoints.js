@@ -4,7 +4,7 @@ const endpoints = {
     SIGN_UP: `${BASE_URL}/signup`,
     SIGN_IN: `${BASE_URL}/signin`,
     GET_QUIZES: `${BASE_URL}/quiz`,
-    SET_SCORE: `${BASE_URL}/scores`,
+    SCORE: `${BASE_URL}/scores`,
     SET_QUESTIONS: `${BASE_URL}/quiz`,
     FETCH_QUESTIONS: (amount, category, difficulty, type) => `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}${type !== 'any'? '&type='+type: '' }`
 }

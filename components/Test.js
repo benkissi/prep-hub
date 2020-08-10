@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { COLORS } from "../constants/colors";
 
-import { secondsToHms, getDateMonthYear } from "../utils";
+import { secondsToHms, getDateMonthYear, formatDate } from "../utils";
 
 function Test({ test }) {
   const [subject, setSubject] = useState("");
@@ -44,7 +44,7 @@ function Test({ test }) {
     setDuration(convertedDuraation);
 
     const createdDate = new Date(test.createdAt);
-    const dateString = getDateMonthYear(createdDate);
+    const dateString = formatDate(createdDate);
 
     setCreatedDate(dateString);
   }, [test]);

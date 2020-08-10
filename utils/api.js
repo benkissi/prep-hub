@@ -148,7 +148,7 @@ export const getCategoryQuizes = async (category) => {
 
 export const setScore = async (studentCode, testId, subject, score, total, duration) => {
   try {
-    const url = endpoints.SET_SCORE
+    const url = endpoints.SCORE
     const data = {
       studentCode,
       testId,
@@ -168,6 +168,24 @@ export const setScore = async (studentCode, testId, subject, score, total, durat
     const response = await res.json();
     console.log('scores response data', response)
     return response;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const getUserScores = async (studentCode) => {
+  try {
+    const query = {
+      studentCode
+    };
+
+    const url = endpoints.SCORE + '?' + new URLSearchParams(query)
+    console.log('urllll', url)
+    
+    const res = await fetch(url)
+    const data = res.json()
+    return data
   } catch (error) {
     console.log(error)
   }

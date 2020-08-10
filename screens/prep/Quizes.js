@@ -50,7 +50,7 @@ function Quizes({ route, navigation }) {
       difficulty: quiz.difficulty,
       type: quiz.type,
       duration: quiz.duration,
-      testId: quiz._id
+      testId: quiz._id,
     });
   };
 
@@ -63,15 +63,15 @@ function Quizes({ route, navigation }) {
   );
   return (
     <View style={styles.wrapper}>
-      {quizes && quizes.length > 0 ? (
+      {loading ? (
+        <ActivityIndicator size="large" color={COLORS.MAIN} />
+      ) : quizes && quizes.length > 0 ? (
         <FlatList
           style={styles.flatList}
           data={quizes}
           renderItem={renderQuizes}
           keyExtractor={(item) => item._id}
         />
-      ) : loading ? (
-        <ActivityIndicator size="large" color={COLORS.MAIN} />
       ) : (
         <Text>No quiz</Text>
       )}

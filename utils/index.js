@@ -37,10 +37,3 @@ export function secondsToHms(seconds) {
   const sDisplay = s > 0 ? s + (s == 1 ? " sec" : " secs") : "";
   return hDisplay + mDisplay + sDisplay;
 }
-
-export const getDateMonthYear = (dateObject) => {
-  const month = dateObject.getUTCMonth() + 1; //months from 1-12
-  const day = dateObject.getUTCDate();
-  const year = dateObject.getUTCFullYear();
-  return day + "/" + month + "/" + year;
-};

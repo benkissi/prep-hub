@@ -1,5 +1,5 @@
 import { QUESTION_TYPES } from "../types";
-import {getQuizes, getCategoryQuizes, createQuiz, getTeacherQuizes, setScore} from "../../utils/api"
+import {getUserScores, getCategoryQuizes, createQuiz, getTeacherQuizes, setScore} from "../../utils/api"
 
 export const setLoading = (isLoading) => ({
   type: QUESTION_TYPES.SET_LOADING,
@@ -41,6 +41,11 @@ export const setTeacherQuizes = (quizArray) => ({
   payload: quizArray
 })
 
+export const setScores = (scoresArray) => ({
+  type: QUESTION_TYPES.SET_SCORES,
+  payload: scoresArray
+})
+
 export const fetchQuizes = (subjectId) => {
   return async (dispatch) => {
     dispatch(setLoading(true))
@@ -80,6 +85,16 @@ export const setUserScore = (studentCode, testId, subject, score, total, duratio
     const response = await setScore(studentCode, testId, subject, score, total, duration)
     console.log('score', response)
     
+    dispatch(setLoading(false))
+  }
+}
+
+export const fecthUserScores =(studentCode) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true))
+    const response = await getUserScores(studentCode)
+    console.log('scores data', response.data)
+    dispatch(setScores(response.data))
     dispatch(setLoading(false))
   }
 }

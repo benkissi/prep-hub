@@ -1,31 +1,51 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, StatusBar } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+  ActivityIndicator,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 import Score from "../../components/Score";
+
+import { fecthUserScores } from "../../store/actions/questions";
 import { COLORS } from "../../constants/colors";
 
 function Scores() {
-  const { scores } = useSelector((state) => state.questions);
+  const { scores, loading } = useSelector((state) => state.questions);
+  const { studentCode } = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fecthUserScores(studentCode));
+    }, [])
+  );
 
   const renderScore = ({ item }) => (
     <Score
       score={item.score}
       total={item.total}
       subject={item.subject}
-      date={item.date}
+      date={item.createdAt}
       duration={item.duration}
     />
   );
   return (
     <View style={styles.wrapper}>
-      {scores.length ? (
+      {loading ? (
+        <ActivityIndicator size="large" color={COLORS.MAIN} />
+      ) : scores.length ? (
         <FlatList
           style={{ width: "100%", flex: 1 }}
           contentContainerStyle={{ paddingHorizontal: 5 }}
           data={scores}
           renderItem={renderScore}
-          keyExtractor={(item) => item.duration + '' + item.date}
+          keyExtractor={(item) => item.duration + "" + item.date}
         />
       ) : (
         <View style={styles.empty_container}>

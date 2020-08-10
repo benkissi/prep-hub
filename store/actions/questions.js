@@ -89,10 +89,10 @@ export const setUserScore = (studentCode, testId, subject, score, total, duratio
   }
 }
 
-export const fecthUserScores =(studentCode) => {
+export const fecthUserScores =(testId, role) => {
   return async (dispatch) => {
     dispatch(setLoading(true))
-    const response = await getUserScores(studentCode)
+    const response = await getUserScores(testId, role)
     console.log('scores data', response.data)
     dispatch(setScores(response.data))
     dispatch(setLoading(false))

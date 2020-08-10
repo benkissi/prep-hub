@@ -13,9 +13,7 @@ function Timer ({total, listener}) {
                 setSeconds((prevState) => prevState - 1)
             }, 1000)
     
-            return () => {
-                clearInterval(timerInterval)
-            }
+            return () => clearInterval(timerInterval)
         }, [])
       );
 

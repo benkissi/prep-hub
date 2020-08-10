@@ -15,14 +15,21 @@ import Score from "../../components/Score";
 import { fecthUserScores } from "../../store/actions/questions";
 import { COLORS } from "../../constants/colors";
 
-function Scores() {
+function Scores({ route }) {
   const { scores, loading } = useSelector((state) => state.questions);
-  const { studentCode } = useSelector((state) => state.user.user);
+  const { studentCode, teacherCode, role } = useSelector(
+    (state) => state.user.user
+  );
   const dispatch = useDispatch();
+  const testId = route.params ? route.params.testId : "";
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(fecthUserScores(studentCode));
+      if (role === "student") {
+        dispatch(fecthUserScores(studentCode, role));
+      } else {
+        dispatch(fecthUserScores(testId, role));
+      }
     }, [])
   );
 
@@ -33,6 +40,7 @@ function Scores() {
       subject={item.subject}
       date={item.createdAt}
       duration={item.duration}
+      studentId={item.studentCode}
     />
   );
   return (
@@ -50,7 +58,9 @@ function Scores() {
       ) : (
         <View style={styles.empty_container}>
           <Text style={styles.empty__text}>
-            You dont have any scores yet. Take a test to populate scores
+            {role === "student"
+              ? "You don't have any scores yet. Take a test to populate scores"
+              : "You don't have any scores yet. Alert your students to take the test"}
           </Text>
         </View>
       )}
@@ -66,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 10,
     width: "100%",
-    marginTop: StatusBar.currentHeight || 0,
+    paddingTop: StatusBar.currentHeight || 0,
   },
   empty_container: {
     flex: 1,

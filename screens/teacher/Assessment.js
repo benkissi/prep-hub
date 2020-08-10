@@ -28,11 +28,11 @@ function Results({ navigation }) {
       dispatch(fetchTeacherQuizes(teacherCode));
     }, [])
   );
-  const handleCardPress = () => {
-    navigation.navigate("Results");
+  const handleCardPress = (id) => {
+    navigation.navigate("Results", {testId: id});
   };
   const renderTest = ({ item }) => (
-    <TouchableOpacity onPress={handleCardPress}>
+    <TouchableOpacity onPress={() => handleCardPress(item._id)}>
       <View style={styles.card__wrapper}>
         <Card>
           <Test test={item}/>

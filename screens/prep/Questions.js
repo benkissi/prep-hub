@@ -110,8 +110,6 @@ function Questions({ route, navigation }) {
   );
 
   const handleCompletion = () => {
-    const timeUsed = secondsToHms(duration - avaliableTime);
-    dispatch(setSubjectScore(subject, score, total, timeUsed));
     navigation.navigate("Score", {
       subject: subject,
       score: score,

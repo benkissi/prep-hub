@@ -4,30 +4,28 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { COLORS } from "../constants/colors";
 import { formatDate, secondsToHms } from "../utils";
 
-function Score({ score, total, subject, date, duration, name }) {
+function Score({ score, total, subject, date, duration, name, studentId }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
     const percent = (score / total) * 100;
-    if(percent > 39 && percent <51){
-        setImage(require('../assets/bronze.png'))
-    }else if(percent > 50 && percent < 71){
-        setImage(require('../assets/silver.png'))
-    }else if(percent > 70 && percent < 99){
-        setImage(require('../assets/gold.png'))
-    }else if(percent === 100){
-        setImage(require('../assets/trophy.png'))
+    if (percent > 39 && percent < 51) {
+      setImage(require("../assets/bronze.png"));
+    } else if (percent > 50 && percent < 71) {
+      setImage(require("../assets/silver.png"));
+    } else if (percent > 70 && percent < 99) {
+      setImage(require("../assets/gold.png"));
+    } else if (percent === 100) {
+      setImage(require("../assets/trophy.png"));
     }
   }, []);
 
-  const timeUsedString = secondsToHms(duration)
-  const dateObject = new Date(date)
+  const timeUsedString = secondsToHms(duration);
+  const dateObject = new Date(date);
   const dateString = formatDate(dateObject);
   return (
     <View style={styles.wrapper}>
-      {
-        name? <Text style={styles.name}>{name}</Text>: null
-      }
+      <Text style={styles.name}>Student Id: {studentId}</Text>
       <View style={styles.top}>
         <View style={styles.score__container}>
           <Text style={styles.score}>{score}</Text>
@@ -88,6 +86,7 @@ const styles = StyleSheet.create({
     color: COLORS.MAIN,
     fontSize: 50,
     alignSelf: "flex-end",
+    margin: 0
   },
   sub: {
     fontFamily: "Raleway_400Regular",
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "15%",
-    height: "100%",
   },
   image: {
     width: "100%",
@@ -124,8 +122,12 @@ const styles = StyleSheet.create({
   },
   name: {
     color: COLORS.MEDIUM_BLACK,
-    fontSize: 17
-  }
+    fontSize: 17,
+    width: "100%",
+    paddingTop: 10,
+    margin: 0,
+    fontStyle: "italic"
+  },
 });
 
 export default Score;

@@ -12,7 +12,7 @@ function Score({ route, navigation }) {
   const { subject, score, total, testId, duration } = route.params;
 
   const dispatch = useDispatch()
-  const { user, type } = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user);
 
   useEffect(() => {
     const percentage = (score / total) * 100;
@@ -36,7 +36,6 @@ function Score({ route, navigation }) {
       );
       setImageLink(require("../../assets/below.png"));
     }
-    // studentCode, testId, subject, score, total, duration
     dispatch(setUserScore(user.studentCode,testId, subject, score, total, duration))
   }, []);
 

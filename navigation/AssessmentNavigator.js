@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Assessment from "../screens/teacher/Assessment";
-import Results from "../screens/teacher/Results"
+import Scores from '../screens/scores/Scores'
 
 import DrawerIcon from "../components/DrawerIcon";
 
@@ -21,7 +21,7 @@ function AssessmentNavigator({ navigation }) {
       />
       <Stack.Screen
         name="Results"
-        component={Results}
+        component={Scores}
       />
     </Stack.Navigator>
   );

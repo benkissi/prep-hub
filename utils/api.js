@@ -174,11 +174,15 @@ export const setScore = async (studentCode, testId, subject, score, total, durat
 }
 
 
-export const getUserScores = async (studentCode) => {
+export const getUserScores = async (id, role) => {
   try {
-    const query = {
-      studentCode
-    };
+    const query = {}
+
+    if(role === "student") {
+      query.studentCode = id
+    }else {
+      query.testId = id
+    }
 
     const url = endpoints.SCORE + '?' + new URLSearchParams(query)
     console.log('urllll', url)

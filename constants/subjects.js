@@ -14,7 +14,7 @@ export const subjects = [
     {
         id: 23,
         name: 'History',
-        color: '#31a05e',
+        color: '#ecb853',
         image: ''
     },
     {
@@ -26,7 +26,7 @@ export const subjects = [
     {
         id: 17,
         name: 'Agric Science',
-        color: '#ff9769',
+        color: '#ff9769 ',
         image: ''
     },
 ]

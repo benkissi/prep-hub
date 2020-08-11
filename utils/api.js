@@ -10,7 +10,6 @@ export async function getQuizes(number) {
 
 export async function getQuestions(amount, category, difficulty, type) {
   const url = endpoints.FETCH_QUESTIONS(amount, category, difficulty, type);
-
   const res = await fetch(url);
   const data = await res.json();
 

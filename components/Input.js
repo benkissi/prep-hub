@@ -96,6 +96,7 @@ const Input = (props) => {
         onChangeText={textChangeHandler}
         onBlur={lostFocus}
         onFocus={gotFocus}
+        returnKeyType="done"
       />
       {!inputState.isValid && inputState.touched && (
         <View style={styles.errorContainer}>

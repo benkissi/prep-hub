@@ -1,4 +1,4 @@
-const BASE_URL =`https://542c97b252e1.ngrok.io`
+const BASE_URL =`https://e048259d5f52.ngrok.io`
 
 const endpoints = {
     SIGN_UP: `${BASE_URL}/signup`,

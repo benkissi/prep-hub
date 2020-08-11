@@ -141,7 +141,7 @@ function Auth() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} testID="wrapper">
       <KeyboardAvoidingView style={styles.wrapper}>
         <View style={styles.wrapper}>
           <View style={styles.logo__container}>

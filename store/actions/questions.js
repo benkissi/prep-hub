@@ -93,6 +93,7 @@ export const fetchTeacherQuizes = (teacherCode) => {
     try {
       dispatch(setLoading(true));
       const response = await getTeacherQuizes(teacherCode);
+      console.log('response', response)
       dispatch(setTeacherQuizes(response.data));
 
       dispatch(setLoading(false));
